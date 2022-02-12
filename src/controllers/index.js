@@ -1,0 +1,1 @@
+module.exports.TransactionController = require('./transaction.controller')
