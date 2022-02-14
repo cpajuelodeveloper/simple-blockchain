@@ -5,8 +5,8 @@ class Block {
 	constructor({ previousHash, message, nonce = 0 }) {
 		this.previousHash = previousHash
 		this.message = message
-		this.hash = this.calculateHash()
 		this.nonce = nonce
+		this.hash = this.calculateHash()
 	}
 
 	calculateHash() {

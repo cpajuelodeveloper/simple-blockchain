@@ -8,7 +8,7 @@ module.exports.createTransaction = async (message) => {
 	try {
 		const previousBlock = await this.getPreviusBlock();
 		const previousHash = previousBlock.hash || this.randomHash();
-		const block = new Block({ previousHash: previousHash, message: message });
+		const block = new Block({ previousHash, message });
 		block.mineBlock(config.difficulty);
 		const { hash, ...data } = block;
 		await TransactionRepository.appendTransaction(Object.values(data).join(","));
@@ -35,7 +35,8 @@ module.exports.getPreviusBlock = async () => {
 
 module.exports.randomHash = () => {
 	try {
-		return "00" + crypto.randomBytes(31).toString('hex').toString();
+		const string = crypto.randomBytes(32).toString('hex').toString();
+		return Array(config.difficulty + 1).join('0') + string.substring(config.difficulty, string.length);
 	} catch(error) {
 		console.error(error)
 		throw new ApplicationError(error.name, error.message, error.status);
