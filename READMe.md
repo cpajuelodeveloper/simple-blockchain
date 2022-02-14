@@ -4,6 +4,13 @@
 git clone https://github.com/cpajuelodeveloper/simple-blockchains.git
 ```
 
+
+## compatible node version
+
+```bash
+^14.0
+```
+
 ## setup environment vars
 
 ```bash
