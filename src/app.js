@@ -1,10 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const logger = require('morgan');
 const routes = require('./routes')
 const config = require('./config')
 const { errorHandler } = require('./middlewares/');
 
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

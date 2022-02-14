@@ -4,6 +4,12 @@
 git clone https://github.com/cpajuelodeveloper/simple-blockchains.git
 ```
 
+## setup environment vars
+
+```bash
+cp .env.orig .env
+```
+
 ## install dependencies
 
 ```bash

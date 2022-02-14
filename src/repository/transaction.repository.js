@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const { ApplicationError } = require('../lib/error');
 const config = require('../config')
+const { Block } = require('../models/block');
 
 module.exports.getLastTransaction = async () => {
 	try {
@@ -12,8 +13,11 @@ module.exports.getLastTransaction = async () => {
 		const lines = data.trim().split('\n');
 		const lastLine = lines.slice(-1)[0];
 		const fields = lastLine.split(',');
-		return { previusHash: fields[0], message: fields[1], nonce: fields[2] };
+		const [previousHash, message, nonce] = fields
+		const block = new Block({ previousHash, message, nonce });
+		return block;
 	} catch (error) {
+		console.error(error)
 		throw new ApplicationError(error.name, error.message);
 	}
 }
@@ -21,10 +25,10 @@ module.exports.getLastTransaction = async () => {
 module.exports.fileExist = async (path) => {
 	try {
 		await fs.access(path);
-		console.log(`File ${path} exists`);
+		console.info(`File ${path} exists`);
 		return true;
 	} catch (error) {
-		console.log(`File ${path} does not exist`);
+		console.info(`File ${path} does not exist`);
 		return false;
 	}
 }
@@ -33,6 +37,7 @@ module.exports.appendTransaction = async (data) => {
 	try{
 		await fs.appendFile(config.csvfile, `${data}\n`);
 	} catch (error) {
+		console.error(error)
 		throw new ApplicationError(error.name, error.message);
 	}
 }
