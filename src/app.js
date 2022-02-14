@@ -12,6 +12,12 @@ app.get('/', (_, res) => res.send('Blockchain is working'))
 
 app.use('/api', routes)
 
+app.use(function(req, res, next) {
+	next(createError(404));
+});
+
 app.listen(config.port, () => console.log(`Server running on port ${config.port}`))
 
 app.use(errorHandler);
+
+module.exports = app;
